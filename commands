@@ -1,0 +1,95 @@
+
+
+
+apt-get update                                                              
+-------------------------
+apt-get upgrade -y
+--------------------------
+apt install build-essential net-tools wireshark tshark tcpdump htop nload ipset iptables-persistent speedtest-cli nftables screen nano wget -y 
+---------------------------
+apt install python3-pip -y
+---------------------------
+pip3 install requests
+---------------------------
+pip3 install psutil
+---------------------------
+apt-get autoclean
+---------------------------
+apt-get autoremove
+---------------------------
+apt install apache2 php php-fpm php-ssh2 -y
+---------------------------
+
+
+##### Everything down below (expect "VPN" part) isnt needed for the VPN walls!!! #####
+
+(To save Tables forever)
+netfilter-persistent save
+netfilter-persistent reload
+(after pasted them)
+To make sure:
+iptables-save > /etc/iptables/rules.v4
+ip6tables-save > /etc/iptables/rules.v6
+
+
+For ubuntu user:
+sudo su
+chmod -R 777 /root
+
+Change SSH port:
+nano /etc/ssh/sshd_config
+Also paste this:
+MaxAuthTries 2
+MaxSessions 7
+MaxStartups 10:30:10000000
+LoginGraceTime 10s
+
+ADD the port Below 22 (remove the #)
+Press Cntrl + X
+press enter
+service sshd restart
+logout
+connect again
+
+Change da DNS sorvor:
+apt install resolvconf -y
+
+systemctl start resolvconf.service
+
+systemctl enable resolvconf.service
+
+nano /etc/resolvconf/resolv.conf.d/head
+
+add the following lines in it:
+
+nameserver 1.0.0.1
+nameserver 1.1.1.1
+
+Control + x then y then enter 
+
+
+nano /etc/resolv.conf
+Add these lines before the old name servers
+
+nameserver 1.0.0.1
+nameserver 1.1.1.1
+
+Control + x then y then enter 
+
+systemctl restart resolvconf.service
+
+
+
+
+
+VPN:
+wget https://git.io/vpn -O openvpn-ubuntu-install.sh
+
+chmod -v +x openvpn-ubuntu-install.sh
+
+sudo ./openvpn-ubuntu-install.sh
+
+Port 1194
+Google
+random user, not root or admin
+
